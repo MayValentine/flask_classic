@@ -2,3 +2,4 @@ entorno_virtual/
 **__pycache__/
 data/
 .env
+.vscode/
