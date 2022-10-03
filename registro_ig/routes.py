@@ -1,6 +1,6 @@
 from registro_ig import app
-from flask import render_template, request, redirect, url_for
-from registro_ig.models import select_all, insert
+from flask import render_template, request, redirect, url_for, flash
+from registro_ig.models import select_all, insert, select_by, delete_by
 from registro_ig.forms import MovementForm
 from datetime import date
 
@@ -40,3 +40,16 @@ def new():
         else:
             return render_template("new.html", form=form)
 
+@app.route("/delete/<int:id>", methods=["GET", "POST"])
+def borrar(id):
+    if request.method == "GET":
+        registro = select_by(id)
+        if registro:
+            return render_template("delete.html", movement=select_by(id))
+        else:
+            flash(f"No se encuentra el registro {id}.")
+            return redirect(url_for("index"))
+    else:
+        delete_by(id)
+        flash("Movimiento borrado correctamente.")
+        return redirect(url_for("index"))

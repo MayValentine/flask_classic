@@ -1,15 +1,7 @@
 import sqlite3
 from config import ORIGIN_DATA
 
-def select_all():
-    conn = sqlite3.connect(ORIGIN_DATA)
-    cur = conn.cursor()
-
-    result = cur.execute("SELECT id, date, concept, quantity from movements order by date;")
-
-    filas = result.fetchall()
-    columnas = result.description
-
+def filas_to_diccionario(filas, columnas):
     resultado = []
     for fila in filas:
         posicion_columna = 0
@@ -18,6 +10,40 @@ def select_all():
             d[campo[0]] = fila[posicion_columna]
             posicion_columna += 1
         resultado.append(d)
+
+    return resultado
+
+def delete_by(id):
+    conn = sqlite3.connect(ORIGIN_DATA)
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM movements WHERE id = ?", (id,))
+
+    conn.commit()
+    conn.close()
+
+def select_by(id):
+    conn = sqlite3.connect(ORIGIN_DATA)
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, date, concept,quantity from movements WHERE id = ?", (id,))
+
+    resultado = filas_to_diccionario(cur.fetchall(), cur.description)
+
+    conn.close()
+
+    if resultado:
+        return resultado[0]
+    else:
+        return {}
+
+def select_all():
+    conn = sqlite3.connect(ORIGIN_DATA)
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, date, concept, quantity from movements order by date;")
+
+    resultado = filas_to_diccionario(cur.fetchall(), cur.description)
 
     conn.close()
     """
