@@ -3,3 +3,4 @@ entorno_virtual/
 data/
 .env
 .vscode/
+config.py

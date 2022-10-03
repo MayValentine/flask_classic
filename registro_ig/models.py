@@ -32,4 +32,12 @@ def select_all():
 
     return resultado
 
+def insert(registro):
+    conn = sqlite3.connect(ORIGIN_DATA)
+    cur = conn.cursor()
+
+    cur.execute("INSERT INTO movements (date, concept, quantity) values (?, ?, ?);", registro)
+    conn.commit()
+    conn.close()
+
 

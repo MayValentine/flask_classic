@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Alta de Ingresos-Gastos</h1>
+<article>
+    <form action="/new" method="post">
+        {{ form.csrf_token }}
+
+        {{ form.date.label }}
+        {{ form.date }}
+        {% if form.date.errors %}
+            {% for error in form.date.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {{ form.concept.label }}
+        {{ form.concept(placeholder="Introduce en que te has gastado la pasta") }}
+        {% if form.concept.errors %}
+            {% for error in form.concept.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {{ form.quantity.label }}
+        {{ form.quantity(placeholder="Euros gastados o ingresados") }}
+        {% if form.quantity.errors %}
+            {% for error in form.quantity.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {{ form.submit }}
+
+        <!--label for="concept">Concepto</label>
+        <input type="text" name="concept" id="concept"
+            placeholder="Introduce en que te has gastado la pasta"
+            value="{{ dataForm.concept }}"> <br><br>
+
+        <label for="quantity">Cantidad</label>
+        <input type="number" name="quantity" id="quantity" 
+            placeholder="Euros gastados o ingresados" step="0.01"
+            value="{{ dataForm.quantity }}"> <br><br>
+
+
+        <input type="submit" value="Aceptar"-->
+    </form>
+</article>
+
+{% endblock %}
